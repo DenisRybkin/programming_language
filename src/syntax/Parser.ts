@@ -19,7 +19,7 @@ export default class Parser {
                 return currentToken;
             }
         }
-        return null;
+        return null
     }
 
     require(...expected : LexicalTokenType[]) : LexicalToken {

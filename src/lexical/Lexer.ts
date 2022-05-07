@@ -16,7 +16,8 @@ export default class Lexer {
         while (this.handlerLexicalToken()) {
             // здесь наверное худо бедно буду взаимодействовать с  будующим парсером :)
         }
-        this.tokenList = this.tokenList.filter(token => token.type.lexicalName !== lexicalTokenTypesList.space.lexicalName);
+        this.tokenList = this.tokenList.filter(token => token.type.lexicalKey !== lexicalTokenTypesList.space.lexicalKey);
+
         return this.tokenList;
     }
 
@@ -28,13 +29,16 @@ export default class Lexer {
             const regex = new RegExp('^' + currentTokenType.regex);
             const result = this.code.substr(this.position).match(regex);
             if(result && result[0]){
-                const newLexicalToken = new LexicalToken(currentTokenType,result[0], this.position);
+                const newLexicalToken = new LexicalToken(currentTokenType,result[0], this.position,this.nLine);
                 if(result[0] === '\n') this.nLine += 1;
                 this.position += result[0].length;
                 this.tokenList.push(newLexicalToken);
                 return true;
             }
         }
-        throw new Error(`На строке ${this.nLine}, позиции ${this.position} обнаружена ошибка, перед "${this.code.substr(this.position)}"`)
+        const unknownLexeme = new LexicalToken(lexicalTokenTypesValues.find(item => item.lexicalKey === 'unknown')!,this.code.substr(this.position),this.position,this.nLine)
+        this.tokenList.push(unknownLexeme);
+        return false
+        // throw new Error(`На строке ${this.nLine}, позиции ${this.position} обнаружена неопознаная лексема, перед "${this.code.substr(this.position)}"`)
     }
 }

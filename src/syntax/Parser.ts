@@ -1,6 +1,6 @@
-import LexicalToken from "./LexicalToken";
-import LexicalTokenType from "./LexicalTokenType";
-import {match} from "assert";
+import LexicalToken from "../lexical/LexicalToken";
+import LexicalTokenType from "../lexical/LexicalTokenType";
+// import {match} from "assert";
 
 export default class Parser {
     tokens : LexicalToken[];
@@ -14,7 +14,7 @@ export default class Parser {
     match(...expected : LexicalTokenType[]) : LexicalToken | null {
         if(this.position < this.tokens.length){
             const currentToken = this.tokens[this.position];
-            if(expected.find(type => type.lexicalName === currentToken.type.lexicalName)) {
+            if(expected.find(type => type.lexicalKey === currentToken.type.lexicalKey)) {
                 this.position += 1;
                 return currentToken;
             }
@@ -24,7 +24,7 @@ export default class Parser {
 
     require(...expected : LexicalTokenType[]) : LexicalToken {
         const token = this.match(...expected);
-        if(!token) throw Error(`на позиции ${this.position} ожидается ${expected[0].lexicalName}`);
+        if(!token) throw Error(`на позиции ${this.position} ожидается ${expected[0].lexicalKey}`);
         return token;
     }
 }

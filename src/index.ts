@@ -1,13 +1,16 @@
-import Lexer from "./Lexer";
+import Lexer from "./lexical/Lexer";
+import fileManager from "fs"
 
-const code = `Var a, bc, cd:Logical;
-    Begin
-    a := 101;
-    b := 1;
-    c := (a & !b) | 0;
-    End.`
+fileManager.readFile('src/input', 'utf8', (err, code) => {
+        if (err) throw Error(err.code);
+        const lexer = new Lexer(code!);
+        lexer.lexicalAnalysis();
+        fileManager.writeFile('src/outputLexemes', JSON.stringify(lexer.tokenList), function (err) {
+            if (err) return console.log(err);
+            console.log('Success');
+        });
+    }
+);
 
-const lexer = new Lexer(code);
 
-lexer.lexicalAnalysis();
-console.log(lexer.tokenList);
+

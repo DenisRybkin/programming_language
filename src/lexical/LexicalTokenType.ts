@@ -1,9 +1,9 @@
 export default class LexicalTokenType {
-    lexicalName : string;
+    lexicalKey : string;
     regex : string;
 
-    constructor(lexicalName: string, regex: string) {
-        this.lexicalName = lexicalName;
+    constructor(lexicalKey: string, regex: string) {
+        this.lexicalKey = lexicalKey;
         this.regex = regex;
     }
 }
@@ -24,10 +24,10 @@ export const lexicalTokenTypesList = {
     "colon" : new LexicalTokenType('colon',':'),
     "exclamation mark" : new LexicalTokenType('exclamation mark','!'),
     'and' : new LexicalTokenType('and','\\&'),
-    'or' : new LexicalTokenType('and','\\|'),
+    'or' : new LexicalTokenType('or','\\|'),
     'plus' : new LexicalTokenType('plus','\\+'),
     'minus' : new LexicalTokenType('minus','\\-'),
-    'l-par' : new LexicalTokenType('plus','\\('),
-    'r-par' : new LexicalTokenType('minus','\\)'),
-
+    'l-par' : new LexicalTokenType('l-par','\\('),
+    'r-par' : new LexicalTokenType('r-par','\\)'),
+    'unknown' : new LexicalTokenType('unknown', '')
 }
